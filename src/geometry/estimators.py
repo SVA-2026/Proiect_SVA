@@ -10,5 +10,5 @@ class GeometryEstimator:
         pts2 = np.float32([kp2[m.trainIdx].pt for m in matches])
 
         #RANSAC gaseste ccel mai bun model matematic
-        F, mask = cv2.findFundamentalMat(pts1, pts2, cv2.FM_RANSAC, 1.0, 0.99)
+        F, mask = cv2.findFundamentalMat(pts1, pts2, cv2.FM_RANSAC, 3.0, 0.99)
         return F, mask, pts1, pts2

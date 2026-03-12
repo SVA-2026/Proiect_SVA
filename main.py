@@ -30,12 +30,20 @@ def main():
     F, mask, pts1, pts2 = GeometryEstimator.estimate_fundamental_matrix(kp1, kp2, matches)
 
     #luam doar cele acceptate de RANSAC
+    pts1_inliers = pts1[mask.ravel() == 1]
+    pts2_inliers = pts2[mask.ravel() == 1]
     inlier_matches = [matches[i] for i in range(len(matches)) if mask[i]]
 
     print(f"S-au gasit {len(inlier_matches)} puncte comune intre aceste imagini")
 
     Plotter.draw_matches(img1, kp1, img2, kp2, inlier_matches, "Asociere imagini")
 
+    ########
+    lines1 = cv2.computeCorrespondEpilines(pts2_inliers.reshape(-1, 1, 2), 2, F)
+    lines1 = lines1.reshape(-1, 3)
+
+    #desenam liniile epipolare
+    Plotter.draw_epipolar_lines(img1, img2, lines1, pts1_inliers, pts2_inliers)
 
 if __name__ == "__main__":
     main()
