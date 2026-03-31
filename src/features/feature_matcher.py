@@ -2,7 +2,7 @@ import cv2
 from src.interfaces.feature_interfaces import IFeatureMatcher
 
 class FlannMatcher(IFeatureMatcher):
-    def __init__(self, ratio=0.75):
+    def __init__(self, ratio=0.9):
         self.ratio = ratio
         #parametri pt alg FLANN specifici pt SIFT
         index_params = dict(algorithm=1, trees=5)
@@ -24,5 +24,3 @@ class FlannMatcher(IFeatureMatcher):
                 good_matches.append(m)
 
         return good_matches
-
-

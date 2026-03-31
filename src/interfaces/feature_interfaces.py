@@ -3,7 +3,7 @@ import numpy as np
 
 class IFeatureDetector(ABC):
     @abstractmethod
-    def detect_and_compute(self, image: np.ndarray):
+    def detect_and_compute(self, image: np.ndarray, mask: np.ndarray = None):
         #returneaza keypoints, descriptors
         pass
 
