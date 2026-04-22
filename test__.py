@@ -6,7 +6,7 @@ from src.loaders.camera_loader import CameraLoader
 from src.features.sift_detector import SIFTDetector
 from src.features.feature_matcher import FlannMatcher
 
-#incarca doar doua imgagini, 05 și 08, perechea cu 862 matches
+#incarca doar doua imgagini, 05 si 08, perechea cu 862 matches
 with open("data/input/cameras.json") as f:
     data = json.load(f)
 

@@ -27,13 +27,13 @@ for i in range(3):
 
 #proiectare origine (0,0,0) in fiecare camera
 for i in range(len(camera_data)):
-    P  = CameraLoader.get_projection_matrix(camera_data[i])
-    pt = P @ np.array([0, 0, 0, 1.0])
+    P  = CameraLoader.get_projection_matrix(camera_data[i]) #calcularea matricea de proiectie
+    pt = P @ np.array([0, 0, 0, 1.0]) #trecerea din 2d in 3d
     px = pt[0] / pt[2]
     py = pt[1] / pt[2]
     h, w = camera_data[i]['image_size']
     inside = 'in imagine' if 0 < px < w and 0 < py < h else 'a iesit din imagine'
-    print(f"  Camera {i:02d}: pixel=({px:.0f}, {py:.0f})  "
+    print(f"Camera {i:02d}: pixel=({px:.0f}, {py:.0f})  "
           f"imagine=({w}x{h})  {inside}")
 
 print(f"\nCamere incarcate: {len(camera_data)}")
@@ -107,7 +107,6 @@ for i, (idx, cam) in enumerate(zip(selected_indices, cameras)):
     C = CameraLoader.get_camera_center(cam)
     print(f"Camera {i} imginea {idx:02d}: C=[{C[0]:.1f}, {C[1]:.1f}, {C[2]:.1f}]")
 
-# ═══════════════════════════════════════════════════════════════════
 #reconstructie 3D
 matcher       = FlannMatcher(ratio=0.75)
 all_points_3d = []

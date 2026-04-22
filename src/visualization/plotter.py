@@ -175,3 +175,40 @@ class Plotter:
 
         plt.tight_layout()
         plt.show()
+
+
+    @staticmethod
+    def plot_colored_point_cloud(points_3d, colors_rgb, title="Colored 3D Point Cloud"):
+        """Deseneaza un nor de puncte folosind culorile reale RGB."""
+        fig = plt.figure(figsize=(10, 8))
+        ax = fig.add_subplot(111, projection='3d')
+
+        # Limităm axele pentru a elimina extremele care strica zoom-ul
+        center = np.median(points_3d, axis=0)
+        std = np.std(points_3d, axis=0)
+        keep = np.all(np.abs(points_3d - center) < 3 * std, axis=1)
+
+        pts_clean = points_3d[keep]
+        colors_clean = colors_rgb[keep]
+
+        # Desenam punctele (parametrul 'c' primeste matricea Nx3 cu valorile RGB)
+        ax.scatter(
+            pts_clean[:, 0],
+            pts_clean[:, 1],
+            pts_clean[:, 2],
+            c=colors_clean,
+            s=2.0,
+            alpha=0.8,
+            edgecolors='none'
+        )
+
+        ax.set_xlabel('X (mm)')
+        ax.set_ylabel('Y (mm)')
+        ax.set_zlabel('Z (mm)')
+        ax.set_title(title)
+
+        # Oprim putin perspectiva sa fie mai realista
+        ax.view_init(elev=20, azim=-45)
+
+        plt.tight_layout()
+        plt.show()

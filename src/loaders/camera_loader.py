@@ -14,20 +14,25 @@ class CameraLoader:
             cam = entry['camera']
             h, w = entry['image_size']
 
+            #param intrinseci
             f = cam['focal_length']
             cx = w / 2.0
             cy = h / 2.0
-            K = np.array([
+            K = np.array([ #transforma coordonatele din 3d in 2d
                 [f, 0, cx],
                 [0, f, cy],
                 [0, 0, 1]
             ], dtype=np.float64)
 
+            #param extrinseci
             q = cam['q']
             qw, qx, qy, qz = q[0], q[1], q[2], q[3]
+            #se returneaza matricea de rotatia
             R = CameraLoader._quat_to_R(qw, qx, qy, qz)
+            #translatia
             t = np.array(cam['t'], dtype=np.float64).reshape(3, 1)
 
+            #impachetare
             cameras.append({
                 'filename': entry['filename'],
                 'K': K,
@@ -43,7 +48,8 @@ class CameraLoader:
 
     @staticmethod
     def _quat_to_R(qw, qx, qy, qz):
-        n = np.sqrt(qw ** 2 + qx ** 2 + qy ** 2 + qz ** 2)
+        n = np.sqrt(qw ** 2 + qx ** 2 + qy ** 2 + qz ** 2) #normala cuaternionului
+        #ne asiguram ca cuaternionul are lungimea 1
         qw /= n
         qx /= n
         qy /= n

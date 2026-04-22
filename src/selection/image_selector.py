@@ -10,7 +10,7 @@ class ImageSelector:
         self.min_matches = min_matches   # overlap minim intre 2 imagini alese
         self.min_features = min_features  # imagini cu prea putine features sunt excluse
 
-    #returneaza indicii celor mai bune n_select imagini.
+    #returneaza indicii celor mai bune n_select imagini
     def select(self, images, keypoints_list, descriptors_list, masks=None):
 
         n = len(images)
