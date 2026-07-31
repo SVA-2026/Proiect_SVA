@@ -46,15 +46,20 @@ python test__.py
 
 
 ## Results
+The application reconstructs a sparse 3D model of the object from multiple calibrated images. It also projects the reconstructed points back onto the original images to verify the reconstruction quality.
 
-The application generates:
+<p align="center">
+  <img width="566" height="533" alt="image" src="https://github.com/user-attachments/assets/3816fc23-12ea-4ecb-9309-49f686295da1" />
+
+<img width="497" height="427" alt="image" src="https://github.com/user-attachments/assets/803309ad-0080-4394-bfe5-a7df7776c39f" />
+</p>
+
+The reconstruction generates:
 
 - a colored 3D point cloud;
-- camera positions;
-- feature matches between images;
-- reprojection error statistics.
-<img width="566" height="533" alt="image" src="https://github.com/user-attachments/assets/3816fc23-12ea-4ecb-9309-49f686295da1" />
+- estimated camera positions;
+- feature correspondences between images;
+- reprojection statistics for evaluating the reconstruction quality. 
 
----
 
-This project was developed for educational purposes as part of the **Computer Vision** course.
+
