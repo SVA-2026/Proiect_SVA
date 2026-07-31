@@ -1,41 +1,60 @@
-**# Proiect_SVA
-Multi‑View Consistency and Simple 3D Reconstruction**
+# Multi-View 3D Object Reconstruction
 
-Am implementat prima etapă pentru reconstrucția 3D a unui obiect dintr-un set de imagini 2D. 
-În aceasta fază ne-am ocupat de detecția trăsăturilor, potrivirea lor între vederi și estimarea liniilor epipolare.
+The application reconstructs a sparse 3D model of an object from multiple calibrated images using computer vision techniques. It detects the same feature points across images, reconstructs their 3D positions and visualizes the final point cloud.
 
-**1. Date folosite**
+## Features
 
-Am ales 5 imagini în care obiectul de interes este o mașnă mică de pompieri ce facilitează detecția de puncte cheie. Imaginile au fost ordonate pentru a avea între două imagini vecine și puncte comune.
-Imaginile au fost redimensionate la o lățime de 800px pentru o vizualizare corectă pe ecran (înainte de redimensionare, vizualizarea nu era clară și nu se puteau vizualiza punctele de interes). Am realizat și o conversie, deoarece procesarea se realizează pe variantele grayscale ale imaginilor pentru a extrage gradienții de intensitate necesari algoritmului SIFT.
+- Detects feature points using **SIFT**
+- Matches features between images with **FLANN**
+- Removes incorrect matches using **Lowe Ratio Test** and **RANSAC**
+- Reconstructs 3D points using **DLT triangulation**
+- Improves the reconstruction with **Bundle Adjustment**
+- Visualizes the reconstructed point cloud and camera positions
 
-**2. Arhitectura proiectului**
+## Technologies
 
-Am ales să abordăm o organizare ce respectă SOLID pentru o mai ușoară observare a funcționării și pentru o arhitectura mai clară. 
-Modulele au fost implementate separat pentru încarcare date (loaders), procesare (features), partea de matematică (geometry) și vizualizare rezultate (vizualization).
-Astfel, prin această abordare, proiectul nostru poate fi schimbat și actualizat în orice moment, fără a strica tot codul.
+- Python
+- OpenCV
+- NumPy
+- SciPy
+- Matplotlib
 
-**3. Logică și Funcționare**
+## How to Run
 
- Am ales să folosim algoritmul SIFT (Scale-Invariant Feature Transform) pentru a extrage punctele de interes ce sunt invariante la rotație, scară si schimbări de iluminare. Distingem în această etapă variabilele keypoints (kp), ce reprezintă locațiile (x,y) ale trăsăturile distinctive, și descriptors (des), care sunt vectori de 128 de valori care descriu numeric aspectul vizual al fiecărui punct.
+Run the complete reconstruction:
 
-Pentru potrivirea perechilor: am folosit FLANN (Fast Library for Approximate Nearest Neighbors) pentru a putea căuta rapid în descriptorii noștri.
-De asemenea, am ales să folosim Lowe's Ratio Test pentru eliminarea potrivirilor ambigue (unde distanța dintre cei mai buni 2 candidați este prea mică) și avem un prag setat la 0.75.
+```bash
+python run_full_dataset.py
+```
 
---> Estimarea Matricei Fundamentale (F): se calculează relația geometrică dintre două imagini.
+To test the pipeline on a pair of images:
 
---> RANSAC: acesta alege doar punctele ce sunt din aceeași categorie și se ignoră liniile ce nu sunt conforme categoriilor predominante. (ex. Daca majoritatea liniilor merg pe orizonatală, dar doar 2-3 pe verticală, acestea vor fi ignorate, fiind considerate incorecte).
-
-Ca și flow de lucru distingem 5 puncte cheie:
-1. Încărcăm imaginile + redimensionare + grayscale.
-2. Extragem trăsăturile cu SIFT.
-3. Realizăm matching-ul cu FLANN.
-4. Estimăm geometria.
-5. Vizualizăm rezultatele finale, adică inliners.
-
-Ca și rezultate avem imaginile cu matching-ul + output-ul din terminal în ceea ce privește matricea F și punctele comune ale imaginilor.
-
-<img width="1906" height="786" alt="image" src="https://github.com/user-attachments/assets/d8cd2907-2814-46bc-9f5c-1d23a90c2673" />
+```bash
+python test__.py
+```
 
 
-<img width="676" height="310" alt="image" src="https://github.com/user-attachments/assets/267eff97-fc12-4cae-955d-40ca97f4548c" />
+## Pipeline
+
+1. Load the images and camera parameters.
+2. Detect SIFT keypoints and descriptors.
+3. Match features using FLANN.
+4. Filter incorrect matches with Lowe Ratio Test and RANSAC.
+5. Reconstruct the 3D points using triangulation.
+6. Refine the reconstruction with Bundle Adjustment.
+7. Visualize the reconstructed point cloud.
+
+
+## Results
+
+The application generates:
+
+- a colored 3D point cloud;
+- camera positions;
+- feature matches between images;
+- reprojection error statistics.
+<img width="566" height="533" alt="image" src="https://github.com/user-attachments/assets/3816fc23-12ea-4ecb-9309-49f686295da1" />
+
+---
+
+This project was developed for educational purposes as part of the **Computer Vision** course.
