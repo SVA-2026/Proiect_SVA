@@ -4,6 +4,7 @@ The application reconstructs a sparse 3D model of an object from multiple calibr
 
 ## Features
 
+- Uses segmentation masks to limit feature detection to the object of interest
 - Detects feature points using **SIFT**
 - Matches features between images with **FLANN**
 - Removes incorrect matches using **Lowe Ratio Test** and **RANSAC**
@@ -36,7 +37,7 @@ python test__.py
 
 ## Pipeline
 
-1. Load the images and camera parameters.
+1. Load the images, segmentation masks and camera parameters.
 2. Detect SIFT keypoints and descriptors.
 3. Match features using FLANN.
 4. Filter incorrect matches with Lowe Ratio Test and RANSAC.
